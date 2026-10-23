@@ -1,7 +1,9 @@
 # Experimental Environment and Reproducibility
 
+> **Archived software release:** [CAJO Edge AI v1.0.0](https://github.com/mahmoudrokaya/CAJO-EdgeAI-Reproducibility/releases/tag/v1.0.0) · **Version DOI:** [10.5281/zenodo.23602180](https://doi.org/10.5281/zenodo.23602180). Documentation changes made after the release are not part of the frozen v1.0.0 archive.
+
 **Project:** CAJO Edge AI — Constraint-Aware Configuration Search for Edge AI  
-**Repository release:** v1.0.0 (planned; confirm before archiving)  
+**Repository release:** v1.0.0 (published; archived DOI shown above)  
 **Status:** Partially documented. Values not preserved in the available experimental evidence are explicitly marked **not verified**.
 
 ## 1. Scope

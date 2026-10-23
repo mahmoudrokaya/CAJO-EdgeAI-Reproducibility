@@ -1,5 +1,7 @@
 # Data Availability
 
+> **Archived software release:** [CAJO Edge AI v1.0.0](https://github.com/mahmoudrokaya/CAJO-EdgeAI-Reproducibility/releases/tag/v1.0.0) · **Version DOI:** [10.5281/zenodo.23602180](https://doi.org/10.5281/zenodo.23602180). Documentation changes made after the release are not part of the frozen v1.0.0 archive.
+
 This document describes the datasets, experimental records, and large-file companion archive associated with **CAJO Edge AI Reproducibility Repository**, the research companion to *Constraint-Aware Configuration Search for Edge AI: A Multi-Dataset Study of Architecture Selection, Pruning, Knowledge Distillation, and Quantization*.
 
 ## 1. Availability overview
@@ -121,10 +123,10 @@ Third-party datasets, pretrained models, external code, and other third-party as
 
 ## 7. Citation and versioning
 
-Cite the specific archived release using the repository's `CITATION.cff` and its DOI **once assigned**. Record the release tag and access date when using external companion files. If an external archive receives a separate persistent identifier, cite that identifier as well.
+Cite the archived v1.0.0 release using `CITATION.cff` and **https://doi.org/10.5281/zenodo.23602180**. Record the release tag and access date when using external companion files. If an external archive receives a separate persistent identifier, cite that identifier as well.
 
 For experimental reproduction procedures, consult [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md). For the scope and contents of the release, consult [`README.md`](README.md) and the `provenance/` manifests.
 
 ---
 
-*This document should be reviewed and updated at each release, especially after the external archive is uploaded, its access permissions are verified, or a DOI is assigned.*
+*This document should be reviewed and updated at each release, especially after the external archive is uploaded, its access permissions are verified, or a new DOI is assigned.*

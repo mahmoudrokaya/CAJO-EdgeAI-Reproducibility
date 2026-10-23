@@ -1,30 +1,18 @@
-
 cff-version: 1.2.0
-
-message: >-
-  If you use this repository, please cite the archived
-  software release using its DOI.
-
+message: "If you use this repository, please cite the archived software release using the DOI provided in its GitHub or Zenodo record."
 type: software
-
 title: "CAJO Edge AI Reproducibility Repository"
-
 abstract: >-
-  Research code, experiment configurations, deployment
-  measurements, and supporting results for constraint-aware
-  Edge AI configuration assessment across CIFAR-10,
-  CIFAR-100, and Speech Commands. The experiments examine
-  architecture selection, pruning, knowledge distillation,
-  INT8 quantization, and accuracy-storage-latency trade-offs.
-
+  Research code, experiment configurations, deployment measurements, and
+  supporting results for constraint-aware Edge AI configuration assessment
+  across CIFAR-10, CIFAR-100, and Speech Commands. The experiments examine
+  architecture selection, pruning, knowledge distillation, INT8 quantization,
+  and accuracy-storage-latency trade-offs.
 authors:
   - family-names: Rokaya
     given-names: Mahmoud
-
 license: CC-BY-4.0
-
 version: 1.0.0
-
 keywords:
   - Edge AI
   - constraint-aware configuration selection
@@ -36,12 +24,7 @@ keywords:
   - CIFAR-10
   - CIFAR-100
   - Speech Commands
-
-# Add after Zenodo registration:
-# doi: "10.5281/zenodo.XXXXXXXX"
-
-# Add after GitHub repository creation:
-# url: "https://github.com/OWNER/REPOSITORY"
-
-# Add when version 1.0.0 is officially released:
-# date-released: "YYYY-MM-DD"
+doi: 10.5281/zenodo.23602180
+url: https://github.com/mahmoudrokaya/CAJO-EdgeAI-Reproducibility
+repository-code: https://github.com/mahmoudrokaya/CAJO-EdgeAI-Reproducibility
+# date-released: YYYY-MM-DD  # Fill in using the actual GitHub release date.

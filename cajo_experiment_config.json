@@ -1,0 +1,213 @@
+{
+  "schema": "cajo_final_experiment_config_v1",
+  "status": "LOCKED",
+  "methodology_sections": [
+    "2.1",
+    "2.2",
+    "2.3"
+  ],
+  "claims_scope": {
+    "deployment_target": "local_workstation_only",
+    "target_cpu": "Intel Core Ultra 7 265KF",
+    "target_gpu": "NVIDIA RTX 5070 12GB",
+    "ram_gib": 32,
+    "inference_backend": "PyTorch CUDA FP32 with NVML GPU energy; separate PyTorch oneDNN CPU INT8 (not comparable as same-device GPU INT8)",
+    "inference_device": "NVIDIA GeForce RTX 5070 (CUDA FP32) for measured GPU objective; Intel Core Ultra 7 265KF CPU for separately reported oneDNN INT8 comparison",
+    "embedded_or_ARM_claims": false,
+    "energy_policy": "MEASURED_DEVICE_LEVEL",
+    "energy_note": "Option A: NVIDIA RTX 5070 NVML cumulative GPU energy counter supported in local probe. Report gross GPU joules/inference from counter deltas over synchronized repeated FP32 inference windows; not whole-system energy. Empirical reliability, background workload, warmup and repeated measurement remain to be verified."
+  },
+  "tasks": {
+    "CIFAR100": {
+      "split_manifest_sha256": "f95b778d146c19d9d6252d3d30884cfd46981ff5ded59600a06f6192cec4ad71",
+      "frozen_checkpoint": "Reports\\Baseline_Training\\CIFAR100\\best_model.pt",
+      "checkpoint_sha256": "0dda6302fb9fbb23abe76851ee40a93e98e47389a6107fca94c8c9cd73c2bbdd",
+      "baseline_parameters": 11220132,
+      "architectures": [
+        {
+          "id": "baseline",
+          "definition": "frozen baseline architecture"
+        },
+        {
+          "id": "ResNet18_width075",
+          "definition": "ResNet18 with every non-output stage channel width scaled to 0.75 using deterministic integer rounding; retain 100-class output; train alternate architecture from scratch; no reuse of incompatible baseline weights"
+        }
+      ],
+      "accuracy_floor_percent": 70.0,
+      "max_total_inference_memory_mib": 512.0,
+      "max_latency_ms": 100.0,
+      "max_storage_mib": 64.0
+    },
+    "CIFAR10": {
+      "split_manifest_sha256": "e5f6ee1f7cb0b9fde92b739de2cb3112a77cfb4d5a3f8a59feef1b20eb950c19",
+      "frozen_checkpoint": "Reports\\Baseline_Training\\CIFAR10\\best_model.pt",
+      "checkpoint_sha256": "9c428a089c60116aa70bf582dd2d8612b38372f87994250cc06c9fa6b313437b",
+      "baseline_parameters": 308650,
+      "architectures": [
+        {
+          "id": "baseline",
+          "definition": "frozen baseline architecture"
+        },
+        {
+          "id": "ResNet8_width075",
+          "definition": "ResNet8 with hidden convolutional stage widths scaled to 0.75 using deterministic integer rounding; retain 10-class output; train alternate architecture from scratch"
+        }
+      ],
+      "accuracy_floor_percent": 85.0,
+      "max_total_inference_memory_mib": 128.0,
+      "max_latency_ms": 30.0,
+      "max_storage_mib": 8.0
+    },
+    "SpeechCommands_v0.02": {
+      "split_manifest_sha256": "9ec3cd9f2d3e2907639fc3e340b9e9bdfbbc4e860298060a9d9093887bfc286c",
+      "frozen_checkpoint": "Reports\\Baseline_Training\\SpeechCommands_v0.02\\best_model.pt",
+      "checkpoint_sha256": "854bb24e924aa3a5d1e70f92a669f52a56bf90828146caba5f153619cbf8bcdc",
+      "baseline_parameters": 22691,
+      "architectures": [
+        {
+          "id": "baseline",
+          "definition": "frozen baseline architecture"
+        },
+        {
+          "id": "DSCNN_width075",
+          "definition": "DS-CNN with pointwise channel widths scaled to 0.75 using deterministic integer rounding; retain frozen 35-label mapping; train alternate architecture from scratch"
+        }
+      ],
+      "accuracy_floor_percent": 90.0,
+      "max_total_inference_memory_mib": 64.0,
+      "max_latency_ms": 20.0,
+      "max_storage_mib": 2.0
+    }
+  },
+  "techniques": {
+    "structured_pruning_ratios": [
+      0.0,
+      0.25,
+      0.5
+    ],
+    "pruning_importance": "BN gamma magnitude; deterministic index tie-break (proposed)",
+    "random_pruning_control": true,
+    "precision_options": [
+      "FP32",
+      "INT8"
+    ],
+    "quantization_backend": "PyTorch CPU oneDNN INT8 (operator support and actual runtime compatibility mandatory)",
+    "quantization_calibration_train_only_count": 256,
+    "quantization_calibration_policy": "Fixed 256 examples sampled deterministically from frozen training partition only, seed 42; never use validation/test; if INT8 graph unsupported mark candidate incompatible",
+    "kd_options": [
+      false,
+      true
+    ],
+    "kd_temperature": 4.0,
+    "kd_alpha": 0.5,
+    "kd_teacher": "task-specific frozen baseline",
+    "kd_is_compression": false
+  },
+  "recovery": {
+    "epochs": 20,
+    "optimizer": "SGD",
+    "learning_rate": 0.01,
+    "momentum": 0.9,
+    "weight_decay": 0.0005,
+    "batch_size": 128,
+    "lr_schedule": "CosineAnnealingLR(T_max=20, eta_min=0), step at epoch end",
+    "seeds": [
+      42,
+      43,
+      44
+    ],
+    "checkpoint_rule": "highest validation accuracy, earliest epoch on ties",
+    "paired_augmentation": true,
+    "train_only_fitting": true
+  },
+  "search": {
+    "strategy": "deterministic_predeclared",
+    "architecture_count_minimum_per_task": 2,
+    "joint_dimensions": [
+      "architecture",
+      "pruning",
+      "precision",
+      "KD"
+    ],
+    "sequential_comparator": "Architecture choice on validation then structured importance pruning P25 then 20-epoch CE/KD recovery then train-only calibrated INT8; same eligibility and candidate budget as joint search",
+    "joint_candidate_policy": "Deterministic predeclared subset of architecture x pruning {0,P25,P50} x precision {FP32,INT8} x KD {off,on}; KD on only when training a student; evaluate candidate tuples jointly without greedy stagewise freezing",
+    "max_evaluated_candidates_per_task_per_strategy": 8,
+    "search_training_budget_per_candidate": "Maximum 5 screening epochs per evaluated candidate; reuse eligible frozen baseline without retraining; finalists use fixed 20-epoch recovery with seeds 42,43,44",
+    "matched_compute_budget_policy": "Equal maximum of 8 evaluated candidate tuples per strategy per task, identical 5-epoch screening limit and final 20-epoch 3-seed protocol; log actual GPU seconds and candidate counts; report any imbalance",
+    "screening_policy": "Training-only fit; validation ranking at prespecified screening budget; hardware compatibility and constraint filters before finalist training; no test access; no adaptive expansion beyond 8 candidates"
+  },
+  "measurement": {
+    "warmup_runs": 50,
+    "timed_runs": 100,
+    "threads": 1,
+    "batch_size": 1,
+    "latency_statistic": "median",
+    "memory_metric": "peak live inference activations/workspace excluding parameter storage",
+    "memory_measurement_method": "CUDA max_memory_allocated and max_memory_reserved separately for RTX 5070 FP32; NOT a complete native runtime peak. Report full total inference memory as unavailable until validated workspace/device-level measurement is implemented. CPU oneDNN memory separately measured and explicitly scoped.",
+    "compatibility_probe": true,
+    "storage_metric": "actual serialized parameter storage",
+    "energy_metric": "NVML nvmlDeviceGetTotalEnergyConsumption cumulative millijoule delta / synchronized inference count; gross GPU J/inference; median over >=5 independent windows of >=10 seconds; warmup 50 CUDA iterations; batch=1; report GPU/driver, clocks/background load, raw counter endpoints, calls and duration; no idle subtraction; unsupported or invalid measurements explicitly unavailable",
+    "energy_measurement_scope": "RTX 5070 GPU device counter only; does not include host CPU, DRAM, or total-system power",
+    "energy_counter_probe": "2026-10-13 user-observed: NVIDIA GeForce RTX 5070; counter supported; counter reading 3987850424 mJ; 14.274 W instantaneous (not inference energy)",
+    "gpu_repeated_windows": 5,
+    "gpu_window_seconds": 10,
+    "hardware_comparison_policy": "Never compare CPU oneDNN INT8 energy/latency to CUDA FP32 as same-device precision ablation; device-specific Pareto front only when all objectives measured on identical target device/backend"
+  },
+  "selection": {
+    "validation_only": true,
+    "test_access": "sealed_until_selection_frozen",
+    "objectives": [
+      "minimize_validation_error",
+      "minimize_storage",
+      "minimize_peak_live_memory",
+      "minimize_latency",
+      "minimize_energy"
+    ],
+    "pareto": "non-dominated feasible candidates only",
+    "primary_preference": "Among feasible non-dominated candidates, highest validation accuracy; tie-break measured RTX 5070 GPU gross J/inference, latency, verified total runtime memory, storage, stable candidate ID. If any mandatory constraint/objective is unavailable, do not declare full Pareto feasibility.",
+    "tie_break_order": [
+      "energy",
+      "latency",
+      "memory",
+      "storage",
+      "candidate_id"
+    ],
+    "infeasible_policy": "report no feasible configuration; do not substitute infeasible model"
+  },
+  "comparison_requirements": [
+    "baseline",
+    "importance_P25_CE",
+    "random_P25_CE",
+    "importance_P25_KD",
+    "importance_P50_KD",
+    "baseline_INT8",
+    "sequential_prune_recover_INT8",
+    "genuine_joint_multi_architecture"
+  ],
+  "outputs": [
+    "baseline_characterization",
+    "compression_ablation",
+    "sequential_vs_joint_matched_budget",
+    "hardware_feasibility",
+    "pareto_front",
+    "frozen_selection",
+    "heldout_final_evaluation"
+  ],
+  "approval": {
+    "human_approved": true,
+    "approver": "Manuscript author (explicit chat approval, 2026-10-11)",
+    "manuscript_energy_alignment_confirmed": false,
+    "full_training_authorized": false,
+    "locked_utc": "2026-10-12T21:48:32.736012+00:00"
+  },
+  "provenance": {
+    "source": "frozen assets and methodology reviewed through Phase 7H",
+    "baseline_retraining_permitted": false,
+    "chameleon_required": false,
+    "proposed_values_pending_approval": true,
+    "constraints_basis": "Existing task thresholds retained unchanged from author draft; described there as provisional conservative research thresholds, not empirically established device requirements. Must be explicitly accepted before lock.",
+    "architecture_implementations": "Architecture variants specified as design contracts only; not yet implemented or tested",
+    "methodology_change_required": "Energy retained as a real measured GPU objective (Option A); distinguish GPU-only energy from system energy and desktop RTX 5070 from embedded edge devices.",
+    "option_a_status": "Measurement interface supported; final protocol validation and feasibility instrumentation pending. No full training authorized."
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "cajo43_real_baseline_v1",
+  "task": "CIFAR10",
+  "checkpoint_sha256": "9c428a089c60116aa70bf582dd2d8612b38372f87994250cc06c9fa6b313437b",
+  "validation_manifest_sha256": "e5f6ee1f7cb0b9fde92b739de2cb3112a77cfb4d5a3f8a59feef1b20eb950c19",
+  "validation_accuracy_pct": 89.88,
+  "validation_total": 5000,
+  "validation_correct": 4494,
+  "checkpoint_bytes": 1260469,
+  "test_accessed": false,
+  "baseline": "uncompressed_FP32",
+  "config_sha256": "56361ba3ef2cb530d54a923cf4f5b3758a22bee82a9119822395cef0be9bbdc5",
+  "latency_mean_ms": 1.477374,
+  "latency_median_ms": 1.3564500000000002,
+  "latency_sd_ms": 0.26294641909935135,
+  "warmups": 50,
+  "runs": 100,
+  "torch_profiler_positive_self_allocated_bytes": 2770732,
+  "scope": "PYTORCH_ALLOCATOR_DIAGNOSTIC_NOT_EXACT_NATIVE_MEMORY",
+  "native_memory_certified": false
+}

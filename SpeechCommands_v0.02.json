@@ -1,0 +1,21 @@
+{
+  "schema": "cajo43_real_baseline_v1",
+  "task": "SpeechCommands_v0.02",
+  "checkpoint_sha256": "854bb24e924aa3a5d1e70f92a669f52a56bf90828146caba5f153619cbf8bcdc",
+  "validation_manifest_sha256": "9ec3cd9f2d3e2907639fc3e340b9e9bdfbbc4e860298060a9d9093887bfc286c",
+  "validation_accuracy_pct": 94.75002504759043,
+  "validation_total": 9981,
+  "validation_correct": 9457,
+  "checkpoint_bytes": 116469,
+  "test_accessed": false,
+  "baseline": "uncompressed_FP32",
+  "config_sha256": "56361ba3ef2cb530d54a923cf4f5b3758a22bee82a9119822395cef0be9bbdc5",
+  "latency_mean_ms": 2.021763,
+  "latency_median_ms": 1.92775,
+  "latency_sd_ms": 0.3710779916539096,
+  "warmups": 50,
+  "runs": 100,
+  "torch_profiler_positive_self_allocated_bytes": 4741888,
+  "scope": "PYTORCH_ALLOCATOR_DIAGNOSTIC_NOT_EXACT_NATIVE_MEMORY",
+  "native_memory_certified": false
+}

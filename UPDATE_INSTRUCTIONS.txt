@@ -1,0 +1,9 @@
+Files in this ZIP are intended for the ROOT of the existing GitHub repository.
+They do NOT include the source code, datasets, figures, or LICENSE.
+Review README.md before replacing your existing README: retain any custom
+sections not represented in this updated version.
+Commit documentation changes to the default branch. To archive those changes
+in Zenodo, create a NEW GitHub release (e.g. v1.0.1). Do not reuse the
+v1.0.0 version DOI to label a new archive.
+Verify the actual v1.0.0 release date before adding date-released to CITATION.cff.
+Verify SharePoint upload/access separately.

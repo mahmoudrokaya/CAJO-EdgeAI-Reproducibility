@@ -1,5 +1,7 @@
 # Reproducibility Guide
 
+> **Archived software release:** [CAJO Edge AI v1.0.0](https://github.com/mahmoudrokaya/CAJO-EdgeAI-Reproducibility/releases/tag/v1.0.0) · **Version DOI:** [10.5281/zenodo.23602180](https://doi.org/10.5281/zenodo.23602180). Documentation changes made after the release are not part of the frozen v1.0.0 archive.
+
 **Project:** CAJO Edge AI Reproducibility Repository  
 **Study:** *Constraint-Aware Configuration Search for Edge AI: A Multi-Dataset Study of Architecture Selection, Pruning, Knowledge Distillation, and Quantization*  
 **Scope:** Evidence underlying manuscript Sections 4.1–4.3  
@@ -196,7 +198,7 @@ The available figure files should be cross-checked against their numerical input
 
 ## 11. Citation, license and archived version
 
-Use `CITATION.cff` for citation metadata. Cite the **specific archived release DOI** once assigned, not an unspecified moving branch. Include the Git commit and release tag in any reproduction report. The intended first release may be tagged `v1.0.0` after the provenance audit; do not assume this tag or DOI exists until published.
+Use `CITATION.cff` for citation metadata. The archived v1.0.0 release has version DOI **https://doi.org/10.5281/zenodo.23602180**. Include the release tag and commit SHA in any reproduction report. Subsequent documentation changes do not retroactively modify this archive.
 
 The repository's original research materials are designated CC BY 4.0 where the authors have rights to license them. Third-party code, data, and weights are governed by their own applicable licenses. For exact included files and any missing evidence, consult the release's provenance reports.
 
